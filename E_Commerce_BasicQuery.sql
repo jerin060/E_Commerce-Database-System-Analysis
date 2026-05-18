@@ -67,3 +67,23 @@ WHERE o.status = 'delivered'
 GROUP BY o.id, o.order_date
 HAVING SUM(o.total_amount) > 5000
 ORDER BY o.order_date;
+
+-- Create a view for order summary
+SELECT 
+    o.id AS order_ID,
+    DATE(o.order_date),
+    u.name AS customer_name,
+    p.name AS product_name,
+    oi.quantity,
+    oi.unit_price,
+    pm.method,
+    o.status
+FROM users u
+JOIN orders o
+ON u.id = o.user_id
+JOIN order_items oi
+ON o.id = oi.order_id
+JOIN products p
+ON oi.product_id = p.id
+JOIN payments pm
+ON o.id = pm.order_id;
