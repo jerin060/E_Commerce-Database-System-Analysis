@@ -1,26 +1,65 @@
 USE E_Commerce_db;
 -- ============================================================
--- Basic Queries
+-- Data Profiling 
 -- ============================================================
--- Find all users whose name starts with 'A'
-SELECT *
-FROM users
-WHERE name LIKE 'A%';
+-- Row counts for every table
+SELECT 'users' AS tbl, COUNT(*) AS total_rows FROM users
+UNION ALL
+SELECT 'products',   COUNT(*) FROM products
+UNION ALL
+SELECT 'categories', COUNT(*) FROM categories
+UNION ALL
+SELECT 'orders',     COUNT(*) FROM orders
+UNION ALL
+SELECT 'order_items',COUNT(*) FROM order_items
+UNION ALL
+SELECT 'payments',   COUNT(*) FROM payments;
 
--- Get products under a specific category
-SELECT * 
-FROM products
-WHERE category_name = 'Electronics';
+-- Date range of orders
+SELECT
+    MIN(order_date) AS earliest_order_date, 
+	MAX(order_date) AS latest_order_date,
+    COUNT(*) AS total_orders
+FROM orders;
 
--- Find orders within a date range
+-- Price range of products
 SELECT 
-	u.id AS user_id,
-    u.name,
-    o.total_amount,
-    o.status,
-    o.order_date
-FROM orders o
-LEFT JOIN users u
-ON o.user_ID = u.id
-WHERE o.order_date BETWEEN '2024-02-01' AND '2024-04-30';
+	MAX(price) AS highest_price,
+    MIN(price) AS lowest_price,
+    ROUND(AVG(price),2) AS avg_price,
+    COUNT(*) AS total_products
+FROM products;
+
+-- ============================================================
+-- NULL Value Check
+-- ============================================================
+-- Check for NULLs in users
+SELECT
+	COUNT(*) - COUNT(name) AS null_name,
+    COUNT(*) - COUNT(email) AS null_email,
+    COUNT(*) - COUNT(phone) AS null_phone,
+    COUNT(*) - COUNT(address) AS null_address
+FROM users;
+
+-- Check for NULLs in orders
+SELECT
+	COUNT(*) - COUNT(user_id) AS null_user_id,
+    COUNT(*) - COUNT(total_amount) AS null_total_amount,
+    COUNT(*) - COUNT(status) AS null_status,
+    COUNT(*) - COUNT(order_date) AS null_order_date
+FROM orders;
+
+-- ============================================================
+-- Distribution Analysis
+-- ============================================================
+-- Orders by status distribution
+SELECT 
+	status, 
+    COUNT(*) AS count,
+	ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 1) AS percentage
+FROM orders
+GROUP BY status
+ORDER BY count DESC;
+
+-- Orders per month
 

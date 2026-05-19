@@ -174,3 +174,11 @@ INSERT INTO payments (order_id, amount, method, status) VALUES
 (19,  7200.00, 'bikash',  'completed'),
 (20,  1050.00, 'cash_on_delivery','pending');
 
+-- Performance Optimization
+CREATE INDEX idx_orders_user_id       ON orders(user_id);
+CREATE INDEX idx_orders_order_date    ON orders(order_date);
+CREATE INDEX idx_orders_status        ON orders(status);
+CREATE INDEX idx_products_category_id ON products(category_id);
+CREATE INDEX idx_order_items_order_id ON order_items(order_id);
+CREATE INDEX idx_order_items_product  ON order_items(product_id);
+CREATE INDEX idx_payments_order_id    ON payments(order_id);
