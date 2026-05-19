@@ -68,16 +68,21 @@ GROUP BY o.id, o.order_date
 HAVING SUM(o.total_amount) > 5000
 ORDER BY o.order_date;
 
+-- ============================================================
 -- Create a view for order summary
+-- ============================================================
+CREATE OR REPLACE VIEW vw_order_summary AS
 SELECT 
     o.id AS order_ID,
-    DATE(o.order_date),
+    DATE(o.order_date) AS order_date,
     u.name AS customer_name,
     p.name AS product_name,
     oi.quantity,
-    oi.unit_price,
-    pm.method,
-    o.status
+    o.status AS order_status,
+    oi.unit_price AS total_bill,
+    DATE(pm.payment_date) AS payment_date,
+    pm.method AS pay_method,
+    pm.status AS pay_status
 FROM users u
 JOIN orders o
 ON u.id = o.user_id
@@ -86,4 +91,44 @@ ON o.id = oi.order_id
 JOIN products p
 ON oi.product_id = p.id
 JOIN payments pm
-ON o.id = pm.order_id;
+ON o.id = pm.order_id
+ORDER BY o.order_date;
+
+SELECT *
+FROM vw_order_summary;
+
+-- ============================================================
+-- BONUS: Auto-deduct stock after order item insert
+-- ============================================================
+DELIMITER $$
+
+CREATE TRIGGER trg_reduce_stock
+AFTER INSERT ON order_items
+FOR EACH ROW
+BEGIN
+    UPDATE products
+    SET stock_qty = stock_qty - NEW.quantity
+    WHERE id = NEW.product_id;
+END $$
+
+DELIMITER ;
+
+-- ============================================================
+-- BONUS: Trigger — Auto-update order total when item is added
+-- ============================================================
+DELIMITER $$
+
+CREATE TRIGGER trg_update_order_total
+AFTER INSERT ON order_items
+FOR EACH ROW
+BEGIN
+    UPDATE orders
+    SET total_amount = (
+        SELECT SUM(quantity * unit_price)
+        FROM order_items
+        WHERE order_id = NEW.order_id
+    )
+    WHERE id = NEW.order_id;
+END $$
+
+DELIMITER ;
