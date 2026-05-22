@@ -1,0 +1,26 @@
+id,category_id,name,description,price,stock_qty
+1,1,"Smartphone X12","Latest Android smartphone",25000.00,43
+2,1,"Wireless Earbuds","Noise-cancelling Bluetooth earbuds",3500.00,98
+3,1,"Laptop Pro 15","15-inch core i7 laptop",75000.00,9
+4,1,"Smart Watch S2","Fitness and notification smartwatch",8000.00,30
+5,2,"Men's Polo Shirt","Cotton polo shirt, multiple colors",800.00,198
+6,2,"Women's Kurti","Designer cotton kurti",1200.00,150
+7,2,"Sports Sneakers","Lightweight running shoes",3500.00,80
+8,3,"Data Structures Book","Comprehensive DSA reference book",1500.00,59
+9,3,"English Grammar Guide","Complete grammar handbook",600.00,90
+10,4,"Non-stick Frying Pan","28cm induction compatible pan",2200.00,38
+11,4,"Bedsheet Set","King size 100% cotton bedsheet",2500.00,55
+12,4,"Study Lamp","LED adjustable desk lamp",1100.00,70
+13,5,"Yoga Mat","Anti-slip 6mm thick yoga mat",900.00,117
+14,5,"Dumbell Set 10kg","Rubber coated dumbbell pair",3000.00,31
+15,5,"Jump Rope","Speed skipping rope with counter",450.00,196
+16,1,"Tablet Pro 10","10-inch Android tablet",18000.00,17
+17,1,"Bluetooth Speaker","Portable waterproof speaker",4500.00,60
+18,2,"Denim Jeans","Slim fit men denim jeans",1800.00,110
+19,2,"Ladies Saree","Premium cotton printed saree",2500.00,83
+20,3,"Python Programming","Beginner to advanced Python book",1200.00,41
+21,4,"Electric Kettle","1.5L fast boil electric kettle",1800.00,50
+22,4,"Air Purifier","HEPA filter room air purifier",12000.00,15
+23,5,"Cycling Helmet","Adjustable safety cycling helmet",2200.00,40
+24,5,"Resistance Bands Set","5-level resistance training bands",750.00,144
+25,1,"Wireless Mouse","Ergonomic 2.4GHz wireless mouse",1200.00,85
